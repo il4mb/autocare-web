@@ -10,9 +10,9 @@ export const generateToken = (payload: object, expiresIn: SignOptions["expiresIn
     return jsonwebtoken.sign(payload, JWT_SECRET, { expiresIn });
 }
 
-export const verifyToken = (token: string) => {
+export const verifyToken = <T extends object>(token: string) => {
     try {
-        return jsonwebtoken.verify(token, JWT_SECRET);
+        return jsonwebtoken.verify(token, JWT_SECRET) as T;
     } catch (error) {
         return null;
     }

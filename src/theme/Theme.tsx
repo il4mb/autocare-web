@@ -9,6 +9,7 @@ import { feedbackCustomizations } from './customizations/feedback';
 import { navigationCustomizations } from './customizations/navigation';
 import { surfacesCustomizations } from './customizations/surfaces';
 import { colorSchemes, typography, shadows, shape } from './themePrimitives';
+import { SnackbarProvider } from 'notistack';
 import "./theme.scss";
 
 
@@ -64,7 +65,14 @@ export default function Theme({ children, disableCustomTheme, themeComponents }:
 
 	return (
 		<ThemeProvider theme={theme} modeStorageKey={'theme-mode'} disableTransitionOnChange>
-			<ThemeClient onResolvedMode={setMode}>{children}</ThemeClient>
+			<ThemeClient onResolvedMode={setMode}>
+				<SnackbarProvider maxSnack={3}
+					anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+					autoHideDuration={4000}
+					preventDuplicate>
+					{children}
+				</SnackbarProvider>
+			</ThemeClient>
 		</ThemeProvider>
 	);
 }

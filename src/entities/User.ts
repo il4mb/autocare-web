@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, DeleteDateColumn } from "typeorm";
 
 export enum UserRole {
     ADMIN = "admin",
@@ -28,5 +28,8 @@ export class User {
 
     @UpdateDateColumn({ name: "updated_at" })
     updatedAt!: Date;
+
+    @DeleteDateColumn({ name: "deleted_at" })
+    deletedAt!: Date | null;
 
 }

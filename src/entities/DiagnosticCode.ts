@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Index } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, Index, CreateDateColumn } from "typeorm";
 import { Brand } from "./Brand";
 
 export enum DTCCategory {
@@ -37,4 +37,7 @@ export class DiagnosticCode {
 
     @Column("simple-array")
     solutions!: string[];
+
+    @CreateDateColumn({ name: "created_at" })
+    createdAt!: Date;
 }
