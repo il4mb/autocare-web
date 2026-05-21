@@ -1,4 +1,6 @@
 'use server';
+import 'reflect-metadata';
+import '@/connection';
 import Theme from '@/theme/Theme';
 import { ReactNode } from 'react';
 

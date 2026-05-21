@@ -39,14 +39,14 @@ const LINKS = [
                 href: "/dashboard/dictionary/brand"
             },
             {
-                label: "Vehicle",
-                href: "/dashboard/dictionary/vehicle"
-            },
-            {
                 label: "Diagnostic Code",
                 href: "/dashboard/dictionary/diagnostic-code"
             }
         ]
+    },
+    {
+        label: "Users",
+        href: "/dashboard/users"
     },
     {
         label: "Settings",
