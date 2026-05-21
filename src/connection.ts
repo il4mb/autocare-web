@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
 import { Brand } from "./entities/Brand";
 import { DiagnosticCode } from "./entities/DiagnosticCode";
+import { User } from "./entities/User";
 
 const DB_HOST = process.env.DB_HOST;
 const DB_PORT = process.env.DB_PORT;
@@ -23,7 +24,8 @@ const db = new DataSource({
     database: DB_NAME,
     entities: [
         Brand,
-        DiagnosticCode
+        DiagnosticCode,
+        User
     ],
     synchronize: true, // Hati-hati dengan opsi ini di production
 });
