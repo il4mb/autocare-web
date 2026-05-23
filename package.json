@@ -5,9 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "dev:server": "ts-node-dev --respawn server.ts",
     "build": "next build",
-    "start": "node ./server.ts"
+    "start": "next start"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
