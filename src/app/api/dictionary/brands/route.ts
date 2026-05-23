@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
 
         if (searchParams.get("search")) {
             const search = `%${searchParams.get("search")}%`;
-            qb.where("brand.name ILIKE :search", { search });
+            qb.where("brand.name LIKE :search", { search });
             // Catatan: Gunakan ILIKE untuk PostgreSQL, atau LIKE untuk MySQL
         }
 

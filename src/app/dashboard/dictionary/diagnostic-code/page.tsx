@@ -30,6 +30,7 @@ import {
     Select,
     MenuItem,
     Grid,
+    LinearProgress,
 } from '@mui/material';
 import { useSetTitle } from '@/components/DashboardLayout';
 import { Plus, Search, Edit2, Trash2, X } from 'lucide-react';
@@ -330,11 +331,25 @@ export default function DiagnosticCodeDictionaryPage() {
                             <TableCell width="50%">Deskripsi Singkat</TableCell>
                             <TableCell width="15%">Aksi</TableCell>
                         </TableRow>
+                        {loading && (
+                            <TableRow>
+                                <TableCell colSpan={4} sx={{
+                                    py: 0, maxHeight: 0,
+                                    position: 'relative'
+                                }}>
+                                    <Box sx={{
+                                        height: 3, backgroundColor: 'red',
+                                        position: 'absolute', left: 0, right: 0, top: 0,
+                                        background: 'linear-gradient(90deg, transparent, #1976d2, transparent)',
+                                    }}>
+                                        <LinearProgress color="primary" sx={{ height: '100%' }} />
+                                    </Box>
+                                </TableCell>
+                            </TableRow>
+                        )}
                     </TableHead>
                     <TableBody>
-                        {loading ? (
-                            skeletonRows
-                        ) : codes.length === 0 ? (
+                        {codes.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={4} align="center" sx={{ py: 6 }}>
                                     <Typography variant="body1" color="text.secondary">
@@ -342,43 +357,41 @@ export default function DiagnosticCodeDictionaryPage() {
                                     </Typography>
                                 </TableCell>
                             </TableRow>
-                        ) : (
-                            codes.map((code) => (
-                                <TableRow key={code.id} hover>
-                                    <TableCell>
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-                                            {code.code}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        {code.brand ? (
-                                            <Chip label={code.brand.name} size="small" color="primary" variant="outlined" />
-                                        ) : (
-                                            <Chip label="Generic" size="small" color="default" />
-                                        )}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography variant="body2" color="text.secondary" noWrap sx={{ maxWidth: 400 }}>
-                                            {code.description || '-'}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Box sx={{ display: 'flex', gap: 1 }}>
-                                            <Tooltip title="Edit Kode">
-                                                <IconButton size="small" color="warning" onClick={() => handleOpenEdit(code)}>
-                                                    <Edit2 size={16} />
-                                                </IconButton>
-                                            </Tooltip>
-                                            <Tooltip title="Hapus Kode">
-                                                <IconButton size="small" color="error" onClick={() => confirmDelete(code)}>
-                                                    <Trash2 size={16} />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </Box>
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        )}
+                        ) : (codes.map((code) => (
+                            <TableRow key={code.id} hover>
+                                <TableCell>
+                                    <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+                                        {code.code}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell>
+                                    {code.brand ? (
+                                        <Chip label={code.brand.name} size="small" color="primary" variant="outlined" />
+                                    ) : (
+                                        <Chip label="Generic" size="small" color="default" />
+                                    )}
+                                </TableCell>
+                                <TableCell>
+                                    <Typography variant="body2" color="text.secondary" noWrap sx={{ maxWidth: 400 }}>
+                                        {code.description || '-'}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Box sx={{ display: 'flex', gap: 1 }}>
+                                        <Tooltip title="Edit Kode">
+                                            <IconButton size="small" color="warning" onClick={() => handleOpenEdit(code)}>
+                                                <Edit2 size={16} />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Hapus Kode">
+                                            <IconButton size="small" color="error" onClick={() => confirmDelete(code)}>
+                                                <Trash2 size={16} />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </Box>
+                                </TableCell>
+                            </TableRow>
+                        )))}
                     </TableBody>
                     {!loading && totalCount > 0 && (
                         <TableFooter>

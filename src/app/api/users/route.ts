@@ -9,7 +9,7 @@ import { verifyToken } from '@/jwt';
 // Skema Validasi (Menggunakan sintaks object { message } yang baru agar tidak deprecated)
 const userSchema = z.object({
     name: z.string().min(1, { message: "Nama wajib diisi" }).max(100),
-    email: z.string().email({ message: "Format email tidak valid" }),
+    email: z.email({ message: "Format email tidak valid" }),
     role: z.enum(["admin", "user"]).default("user"),
     password: z.string().min(6, { message: "Password minimal 6 karakter" }).optional(),
 });
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
             .orderBy("user.name", "ASC");
 
         if (search) {
-            queryBuilder.where("user.name ILIKE :search OR user.email ILIKE :search", { search: `%${search}%` });
+            queryBuilder.where("user.name LIKE :search OR user.email LIKE :search", { search: `%${search}%` });
         }
 
         const [users, totalUsers] = await queryBuilder.getManyAndCount();

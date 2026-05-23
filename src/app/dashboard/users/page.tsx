@@ -5,7 +5,8 @@ import {
     TableHead, TableBody, TableRow, TableCell, TableFooter, TablePagination,
     Button, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress,
     Skeleton, Chip, IconButton, Tooltip, InputAdornment, FormControl, InputLabel,
-    Select, MenuItem, Grid
+    Select, MenuItem, Grid,
+    LinearProgress
 } from '@mui/material';
 import { useSetTitle } from '@/components/DashboardLayout'; // Sesuaikan path ini
 import { Plus, Search, Edit2, Trash2, X } from 'lucide-react';
@@ -238,9 +239,25 @@ export default function UserManagementPage() {
                             <TableCell width="15%">Role</TableCell>
                             <TableCell width="15%">Aksi</TableCell>
                         </TableRow>
+                        {loading && (
+                            <TableRow>
+                                <TableCell colSpan={4} sx={{
+                                    py: 0, maxHeight: 0,
+                                    position: 'relative'
+                                }}>
+                                    <Box sx={{
+                                        height: 3, backgroundColor: 'red',
+                                        position: 'absolute', left: 0, right: 0, top: 0,
+                                        background: 'linear-gradient(90deg, transparent, #1976d2, transparent)',
+                                    }}>
+                                        <LinearProgress color="primary" sx={{ height: '100%' }} />
+                                    </Box>
+                                </TableCell>
+                            </TableRow>
+                        )}
                     </TableHead>
                     <TableBody>
-                        {loading ? skeletonRows : users.length === 0 ? (
+                        {users.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={5} align="center" sx={{ py: 6 }}>
                                     <Typography variant="body1" color="text.secondary">Tidak ada data user.</Typography>

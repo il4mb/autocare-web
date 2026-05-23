@@ -25,6 +25,7 @@ import {
     IconButton,
     Tooltip,
     InputAdornment,
+    LinearProgress,
 } from '@mui/material';
 import { useSetTitle } from '@/components/DashboardLayout';
 import { Plus, Search, Edit2, Trash2, X } from 'lucide-react';
@@ -186,7 +187,7 @@ export default function BrandDictionaryPage() {
             const response = await fetch(`/api/dictionary/brands`, {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: brandToDelete.id }), 
+                body: JSON.stringify({ id: brandToDelete.id }),
             });
             if (!response.ok) {
                 const errorData = await response.json();
@@ -251,6 +252,7 @@ export default function BrandDictionaryPage() {
                 }}>
                 <TextField
                     label="Cari Brand"
+                    placeholder="Masukkan nama brand..."
                     variant="outlined"
                     size="small"
                     value={searchTerm}
@@ -289,11 +291,25 @@ export default function BrandDictionaryPage() {
                             <TableCell width="25%">Total Kode Diagnostik</TableCell>
                             <TableCell width="25%">Aksi</TableCell>
                         </TableRow>
+                        {loading && (
+                            <TableRow>
+                                <TableCell colSpan={4} sx={{
+                                    py: 0, maxHeight: 0,
+                                    position: 'relative'
+                                }}>
+                                    <Box sx={{
+                                        height: 3, backgroundColor: 'red',
+                                        position: 'absolute', left: 0, right: 0, top: 0,
+                                        background: 'linear-gradient(90deg, transparent, #1976d2, transparent)',
+                                    }}>
+                                        <LinearProgress color="primary" sx={{ height: '100%' }} />
+                                    </Box>
+                                </TableCell>
+                            </TableRow>
+                        )}
                     </TableHead>
                     <TableBody>
-                        {loading ? (
-                            skeletonRows
-                        ) : brands.length === 0 ? (
+                        {brands.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={4} align="center" sx={{ py: 6 }}>
                                     <Typography variant="body1" color="text.secondary">
@@ -301,37 +317,35 @@ export default function BrandDictionaryPage() {
                                     </Typography>
                                 </TableCell>
                             </TableRow>
-                        ) : (
-                            brands.map((brand, index) => (
-                                <TableRow key={brand.id} hover>
-                                    <TableCell>{page * rowsPerPage + index + 1}</TableCell>
-                                    <TableCell>
-                                        <Typography variant="body2">
-                                            {brand.name}
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Chip label={brand.diagnosticsCount ?? 0} size="small" color="primary" variant="outlined" />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Box sx={{ display: 'flex', gap: 1 }}>
-                                            <Tooltip title="Edit Brand">
-                                                <IconButton size="small" color="warning" onClick={() => handleEditClick(brand)}>
-                                                    <Edit2 size={16} />
-                                                </IconButton>
-                                            </Tooltip>
-                                            <Tooltip title="Hapus Brand">
-                                                <IconButton size="small" color="error" onClick={() => confirmDelete(brand)}>
-                                                    <Trash2 size={16} />
-                                                </IconButton>
-                                            </Tooltip>
-                                        </Box>
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        )}
+                        ) : (brands.map((brand, index) => (
+                            <TableRow key={brand.id} hover>
+                                <TableCell>{page * rowsPerPage + index + 1}</TableCell>
+                                <TableCell>
+                                    <Typography variant="body2">
+                                        {brand.name}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Chip label={brand.diagnosticsCount ?? 0} size="small" color="primary" variant="outlined" />
+                                </TableCell>
+                                <TableCell>
+                                    <Box sx={{ display: 'flex', gap: 1 }}>
+                                        <Tooltip title="Edit Brand">
+                                            <IconButton size="small" color="warning" onClick={() => handleEditClick(brand)}>
+                                                <Edit2 size={16} />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Hapus Brand">
+                                            <IconButton size="small" color="error" onClick={() => confirmDelete(brand)}>
+                                                <Trash2 size={16} />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </Box>
+                                </TableCell>
+                            </TableRow>
+                        )))}
                     </TableBody>
-                    {!loading && totalCount > 0 && (
+                    {totalCount > 0 && (
                         <TableFooter>
                             <TableRow>
                                 <TablePagination

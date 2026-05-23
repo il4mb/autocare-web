@@ -351,6 +351,12 @@ export const inputsCustomizations: Components<Theme> = {
                             color: "white"
                         })
                     }
+                },
+                "&:has( .MuiInputAdornment-positionStart)": {
+                    "& .MuiFormLabel-root": {
+                        top: 0,
+                        transform: "translate(14px, -50%) scale(0.758)",
+                    }
                 }
             })
         }
