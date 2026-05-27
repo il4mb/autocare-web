@@ -32,4 +32,11 @@ export class User {
     @DeleteDateColumn({ name: "deleted_at" })
     deletedAt!: Date | null;
 
+    // Tambahkan kolom untuk reset token dan expiry
+    @Column({ name: "reset_token", type: "varchar", length: 255, nullable: true, default: null })
+    resetToken!: string | null;
+
+    @Column({ name: "reset_token_expiry", type: "timestamp", nullable: true, default: null })
+    resetTokenExpiry!: Date | null;
+
 }

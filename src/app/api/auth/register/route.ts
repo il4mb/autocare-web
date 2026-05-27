@@ -36,6 +36,7 @@ export const POST = async (request: NextRequest) => {
 
     const hashedPassword = await bcrypt.hash(patch.password, 10);
     const newUser = repository.create({
+        name: patch.name,
         email: patch.email,
         password: hashedPassword,
     });

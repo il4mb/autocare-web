@@ -53,9 +53,9 @@ export default function Theme({ children, disableCustomTheme, themeComponents }:
 	useEffect(() => {
 		if (typeof window === 'undefined') return;
 		const savedMode = localStorage.getItem('theme-mode') as 'light' | 'dark' | null;
-		if (!savedMode) {
-			localStorage.setItem('theme-mode', "light");
-		}
+		// if (!savedMode) {
+		localStorage.setItem('theme-mode', "dark");
+		// }
 		setMounted(true);
 	}, []);
 

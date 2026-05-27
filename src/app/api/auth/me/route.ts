@@ -9,9 +9,9 @@ import bcrypt from "bcrypt";
 // Skema validasi untuk update profil
 const profileSchema = z.object({
     name: z.string().min(1, { message: "Nama wajib diisi" }).max(100),
-    email: z.string().email({ message: "Format email tidak valid" }),
+    email: z.email({ message: "Format email tidak valid" }),
     password: z.string().min(6, { message: "Password minimal 6 karakter" }).optional().or(z.literal("")),
-});
+}).partial(); // Semua field bersifat opsional, tapi jika diisi harus valid
 
 export const GET = async (request: NextRequest) => {
     try {
@@ -86,7 +86,7 @@ export const PUT = async (request: NextRequest) => {
         const patch = {} as Partial<User>;
 
         // Cek jika email diganti, pastikan belum dipakai orang lain
-        if (data.email !== actor.email) {
+        if (data.email && data.email !== actor.email) {
             const emailExist = await repository.findOne({ where: { email: data.email } });
             if (emailExist) {
                 return NextResponse.json({ success: false, error: "Email sudah terdaftar" }, { status: 409 });
@@ -94,7 +94,10 @@ export const PUT = async (request: NextRequest) => {
             patch.email = data.email;
         }
 
-        patch.name = data.name;
+        // patch.name = data.name;
+        if (data.name && data.name !== actor.name) {
+            patch.name = data.name;
+        }
 
         // Update password hanya jika diisi
         if (data.password && data.password.trim() !== "") {
